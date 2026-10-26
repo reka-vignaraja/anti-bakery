@@ -1,123 +1,222 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
   <title>Admin Dashboard | Anti Bakery</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- GOOGLE FONTS -->
+  <link rel="preconnect"
+        href="https://fonts.googleapis.com">
 
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
 
-  
-  <link rel="stylesheet" href="admin.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- ADMIN CSS ONLY -->
+  <link rel="stylesheet" href="admin.css?v=2">
+
 </head>
 
 <body>
 
-  <!-- ADMIN HEADER -->
+  <!-- =====================================
+       ADMIN HEADER
+  ====================================== -->
+
   <header class="admin-header">
+
     <div class="admin-header-inner">
 
-      <a href="index.html" class="admin-logo">
+      <!-- LOGO -->
+      <a href="admin.html" class="admin-logo">
         Anti<span>Bakery.</span>
       </a>
 
-     
-<nav class="admin-nav" aria-label="Admin navigation">
+      <!-- ADMIN NAVIGATION -->
+      <nav class="admin-nav"
+           aria-label="Admin navigation">
 
-  <a href="admin.html" class="active" aria-current="page">
-    Dashboard
-  </a>
+        <a href="admin.html"
+           class="active"
+           aria-current="page">
+          Dashboard
+        </a>
 
-  <a href="admin-products.html">
-    Products
-  </a>
+        <a href="admin-products.html">
+          Products
+        </a>
 
-  <a href="my-orders.html">
-    My Orders
-  </a>
+        <a href="#recentOrders">
+          Orders
+        </a>
 
-  <a href="index.html">
-    View Website
-  </a>
+        <a href="index.html">
+          View Website
+        </a>
 
-</nav>
-
+      </nav>
 
     </div>
+
   </header>
 
-  <!-- MAIN -->
+  <!-- =====================================
+       MAIN DASHBOARD
+  ====================================== -->
+
   <main class="admin-container">
 
+    <!-- WELCOME SECTION -->
     <section class="admin-welcome">
+
       <div>
-        <p class="admin-eyebrow">BAKERY MANAGEMENT</p>
-        <h1>Admin Dashboard</h1>
-        <p>
-          Manage and review your Anti Bakery demo orders.
+
+        <p class="admin-eyebrow">
+          BAKERY MANAGEMENT
         </p>
+
+        <h1>Admin Dashboard</h1>
+
+        <p>
+          Manage and review your Anti Bakery
+          products and demo orders.
+        </p>
+
       </div>
 
       <span class="admin-demo-badge">
         Demo Dashboard
       </span>
-    </section>
-
-    <!-- STATISTICS -->
-    <section class="admin-stats" aria-label="Dashboard statistics">
-
-      <article class="admin-stat-card">
-        <div class="admin-stat-icon">🛍️</div>
-        <p>Total Orders</p>
-        <h2 id="adminTotalOrders">0</h2>
-      </article>
-
-      <article class="admin-stat-card">
-        <div class="admin-stat-icon">💜</div>
-        <p>Total Revenue</p>
-        <h2 id="adminRevenue">$0.00</h2>
-      </article>
-
-      <article class="admin-stat-card">
-        <div class="admin-stat-icon">🧁</div>
-        <p>Total Products</p>
-        <h2 id="adminProducts">4</h2>
-      </article>
-
-      <article class="admin-stat-card">
-        <div class="admin-stat-icon">👥</div>
-        <p>Customers</p>
-        <h2 id="adminCustomers">0</h2>
-      </article>
 
     </section>
 
-    <!-- RECENT ORDERS -->
-    <section class="admin-orders-section">
+    <!-- =====================================
+         DASHBOARD STATISTICS
+    ====================================== -->
 
-      <div class="admin-section-heading">
-        <div>
-          <p class="admin-eyebrow">ORDER MANAGEMENT</p>
-          <h2>Recent Orders</h2>
+    <section class="admin-stats"
+             aria-label="Dashboard statistics">
+
+      <!-- TOTAL ORDERS -->
+      <article class="admin-stat-card">
+
+        <div class="admin-stat-icon">
+          🛍️
         </div>
 
-        <select id="adminOrderFilter"
-                aria-label="Filter orders">
-          <option value="all">All Orders</option>
-          <option value="newest">Newest First</option>
-          <option value="oldest">Oldest First</option>
+        <p>Total Orders</p>
+
+        <h2 id="adminTotalOrders">
+          0
+        </h2>
+
+      </article>
+
+      <!-- TOTAL REVENUE -->
+      <article class="admin-stat-card">
+
+        <div class="admin-stat-icon">
+          💜
+        </div>
+
+        <p>Total Revenue</p>
+
+        <h2 id="adminRevenue">
+          $0.00
+        </h2>
+
+      </article>
+
+      <!-- TOTAL PRODUCTS -->
+      <article class="admin-stat-card">
+
+        <div class="admin-stat-icon">
+          🧁
+        </div>
+
+        <p>Total Products</p>
+
+        <h2 id="adminProducts">
+          4
+        </h2>
+
+      </article>
+
+      <!-- TOTAL CUSTOMERS -->
+      <article class="admin-stat-card">
+
+        <div class="admin-stat-icon">
+          👥
+        </div>
+
+        <p>Customers</p>
+
+        <h2 id="adminCustomers">
+          0
+        </h2>
+
+      </article>
+
+    </section>
+
+    <!-- =====================================
+         RECENT ORDERS
+    ====================================== -->
+
+    <section class="admin-orders-section"
+             id="recentOrders">
+
+      <div class="admin-section-heading">
+
+        <div>
+
+          <p class="admin-eyebrow">
+            ORDER MANAGEMENT
+          </p>
+
+          <h2>Recent Orders</h2>
+
+        </div>
+
+        <!-- ORDER FILTER -->
+        <select
+          id="adminOrderFilter"
+          aria-label="Filter orders">
+
+          <option value="all">
+            All Orders
+          </option>
+
+          <option value="newest">
+            Newest First
+          </option>
+
+          <option value="oldest">
+            Oldest First
+          </option>
+
         </select>
+
       </div>
 
+      <!-- ORDERS TABLE -->
       <div class="admin-table-wrapper">
+
         <table class="admin-orders-table">
 
           <thead>
+
             <tr>
               <th>Order ID</th>
               <th>Customer</th>
@@ -127,45 +226,80 @@
               <th>Status</th>
               <th>Action</th>
             </tr>
+
           </thead>
 
           <tbody id="adminOrdersBody">
+
             <tr>
-              <td colspan="7" class="admin-empty">
+
+              <td colspan="7"
+                  class="admin-empty">
+
                 Loading orders...
+
               </td>
+
             </tr>
+
           </tbody>
 
         </table>
+
       </div>
 
     </section>
 
-    <!-- ORDER DETAILS -->
-    <section class="admin-details-section" id="adminOrderDetails" hidden>
+    <!-- =====================================
+         ORDER DETAILS SECTION
+    ====================================== -->
+
+    <section
+      class="admin-details-section"
+      id="adminOrderDetails"
+      hidden>
+
       <div class="admin-section-heading">
-        <h2>Order Details</h2>
-        <button id="closeOrderDetails"
-                type="button"
-                class="admin-close-button">
+
+        <h2>
+          Order Details
+        </h2>
+
+        <button
+          id="closeOrderDetails"
+          type="button"
+          class="admin-close-button">
+
           Close
+
         </button>
+
       </div>
 
       <div id="adminOrderDetailsContent"></div>
+
     </section>
 
   </main>
 
-  <!-- FOOTER -->
+  <!-- =====================================
+       FOOTER
+  ====================================== -->
+
   <footer class="admin-footer">
+
     <p>
       © <span id="year"></span>
       Anti Bakery · Admin Demo
     </p>
+
   </footer>
 
-  <script src="admin.js"></script>
+  <!-- =====================================
+       ADMIN JAVASCRIPT
+  ====================================== -->
+
+  <script src="admin.js?v=2"></script>
+
 </body>
 </html>
