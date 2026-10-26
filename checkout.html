@@ -1,0 +1,272 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout | Anti Bakery</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="checkout.css">
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <a href="index.html" class="logo">
+      Anti<span>.</span>
+    </a>
+
+    <a href="index.html#menu" class="button button-outline">
+      ← Continue Shopping
+    </a>
+  </header>
+
+  <!-- CHECKOUT PAGE -->
+  <main class="checkout-container section-wrap">
+
+    <div class="checkout-heading">
+      <p class="eyebrow">Almost there!</p>
+      <h1>Secure Checkout</h1>
+      <p>Complete your details to place your bakery order.</p>
+    </div>
+
+    <div class="checkout-layout">
+
+      <!-- CUSTOMER INFORMATION -->
+      <section class="checkout-form-section">
+
+        <form id="checkoutForm">
+
+          <div class="checkout-card">
+
+            <h2>Customer Information</h2>
+
+            <div class="form-group">
+              <label for="customerName">Full Name *</label>
+              <input
+                type="text"
+                id="customerName"
+                name="customerName"
+                placeholder="Enter your full name"
+                autocomplete="name"
+                required
+              >
+            </div>
+
+            <div class="form-row">
+
+              <div class="form-group">
+                <label for="customerEmail">Email Address *</label>
+                <input
+                  type="email"
+                  id="customerEmail"
+                  name="customerEmail"
+                  placeholder="example@gmail.com"
+                  autocomplete="email"
+                  required
+                >
+              </div>
+
+              <div class="form-group">
+                <label for="customerPhone">Phone Number *</label>
+                <input
+                  type="tel"
+                  id="customerPhone"
+                  name="customerPhone"
+                  placeholder="+94 77 123 4567"
+                  autocomplete="tel"
+                  required
+                >
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- DELIVERY DETAILS -->
+          <div class="checkout-card">
+
+            <h2>Delivery Information</h2>
+
+            <div class="form-group">
+              <label for="deliveryAddress">Delivery Address *</label>
+              <textarea
+                id="deliveryAddress"
+                name="deliveryAddress"
+                rows="3"
+                placeholder="House number, street, area"
+                autocomplete="street-address"
+                required
+              ></textarea>
+            </div>
+
+            <div class="form-row">
+
+              <div class="form-group">
+                <label for="deliveryCity">City *</label>
+                <input
+                  type="text"
+                  id="deliveryCity"
+                  name="deliveryCity"
+                  placeholder="Jaffna"
+                  autocomplete="address-level2"
+                  required
+                >
+              </div>
+
+              <div class="form-group">
+                <label for="deliveryPostal">Postal Code</label>
+                <input
+                  type="text"
+                  id="deliveryPostal"
+                  name="deliveryPostal"
+                  placeholder="40000"
+                  autocomplete="postal-code"
+                >
+              </div>
+
+            </div>
+
+            <div class="form-group">
+              <label for="orderNotes">Special Instructions</label>
+              <textarea
+                id="orderNotes"
+                name="orderNotes"
+                rows="3"
+                placeholder="Cake message, delivery instructions, etc."
+              ></textarea>
+            </div>
+
+          </div>
+
+          <!-- PAYMENT METHOD -->
+          <div class="checkout-card">
+
+            <h2>Payment Method</h2>
+
+            <div class="payment-option">
+              <label>
+                <input
+                  type="radio"
+                  name="paymentMethod"
+                  value="Cash on Delivery"
+                  checked
+                >
+                Cash on Delivery (Demo)
+              </label>
+            </div>
+
+            <p class="payment-note">
+              This is a demo checkout. No real payment or order
+              will be processed.
+            </p>
+
+          </div>
+
+          <button
+            type="submit"
+            class="button place-order-btn"
+            id="placeOrderButton"
+          >
+            Place Demo Order
+          </button>
+
+        </form>
+
+      </section>
+
+      <!-- ORDER SUMMARY -->
+      <aside class="checkout-summary">
+
+        <div class="checkout-card">
+
+          <h2>Your Order Summary</h2>
+
+          <div id="checkoutItems">
+            <p>Loading your cart...</p>
+          </div>
+
+          <hr>
+
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span id="checkoutSubtotal">$0.00</span>
+          </div>
+
+          <div class="summary-row">
+            <span>Delivery Fee</span>
+            <span id="checkoutDelivery">$0.00</span>
+          </div>
+
+          <hr>
+
+          <div class="summary-row summary-total">
+            <strong>Total</strong>
+            <strong id="checkoutTotal">$0.00</strong>
+          </div>
+
+          <p class="checkout-security">
+            Your order details will be reviewed before confirmation.
+          </p>
+
+        </div>
+
+      </aside>
+
+    </div>
+
+    <!-- ORDER CONFIRMATION -->
+    <section
+      id="orderSuccess"
+      class="order-success"
+      hidden
+      role="status"
+      aria-live="polite"
+    >
+
+      <div class="success-icon">✓</div>
+
+      <h2>Demo Order Created!</h2>
+
+      <p>
+        Thank you for choosing Anti Bakery.
+        This is a demonstration only.
+        Your order has not been sent to the bakery.
+      </p>
+
+      <p>
+        Demo Order ID:
+        <strong id="orderNumber"></strong>
+      </p>
+
+      <a href="index.html" class="button">
+        Back to Home
+      </a>
+
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+
+    <div class="copyright">
+      © <span id="year"></span> Anti Bakery.
+      Baked with Love ♥
+    </div>
+
+  </footer>
+
+  <!-- JAVASCRIPT -->
+  <script src="checkout.js"></script>
+
+</body>
+</html>

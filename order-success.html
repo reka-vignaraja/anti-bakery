@@ -1,0 +1,221 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Order Success | Anti Bakery</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- CSS FILES -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="order-success.css">
+
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="section-wrap">
+      <nav class="success-navbar">
+
+        <a href="index.html" class="success-logo">
+          Anti<span>Bakery.</span>
+        </a>
+
+        <a href="index.html" class="button button-outline">
+          Back to Home
+        </a>
+
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="success-container section-wrap">
+
+    <!-- SUCCESS HEADER -->
+    <section class="success-header">
+
+      <div class="success-checkmark">
+        ✓
+      </div>
+
+      <p class="eyebrow">ORDER CONFIRMATION</p>
+
+      <h1>Thank You for Your Order!</h1>
+
+      <p class="success-description">
+        Your demo order has been created successfully.
+        Thank you for choosing Anti Bakery!
+        This is a demonstration only, and no real order
+        has been sent to the bakery.
+      </p>
+
+      <div class="order-id-box">
+        <span>Order Number</span>
+        <strong id="successOrderId">Loading...</strong>
+      </div>
+
+    </section>
+
+    <!-- ORDER DETAILS LAYOUT -->
+    <div class="success-layout">
+
+      <!-- LEFT COLUMN -->
+      <section class="success-details">
+
+        <!-- ORDERED PRODUCTS -->
+        <div class="success-card">
+
+          <h2>Your Ordered Items</h2>
+
+          <div id="successOrderItems">
+            <p>Loading your products...</p>
+          </div>
+
+        </div>
+
+        <!-- DELIVERY DETAILS -->
+        <div class="success-card">
+
+          <h2>Delivery Information</h2>
+
+          <div class="detail-row">
+            <span>Customer Name</span>
+            <strong id="successCustomerName">—</strong>
+          </div>
+
+          <div class="detail-row">
+            <span>Email</span>
+            <strong id="successEmail">—</strong>
+          </div>
+
+          <div class="detail-row">
+            <span>Phone Number</span>
+            <strong id="successPhone">—</strong>
+          </div>
+
+          <div class="detail-row">
+            <span>Delivery Address</span>
+            <strong id="successAddress">—</strong>
+          </div>
+
+          <div class="detail-row">
+            <span>Payment Method</span>
+            <strong id="successPayment">—</strong>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- RIGHT COLUMN -->
+      <aside class="success-summary">
+
+        <div class="success-card">
+
+          <h2>Order Summary</h2>
+
+          <div class="detail-row">
+            <span>Order Date</span>
+            <strong id="successDate">—</strong>
+          </div>
+
+          <div class="detail-row">
+            <span>Order Status</span>
+            <span class="order-status" id="successStatus">
+              Demo Only
+            </span>
+          </div>
+
+          <hr>
+
+          <div class="detail-row">
+            <span>Subtotal</span>
+            <strong id="successSubtotal">$0.00</strong>
+          </div>
+
+          <div class="detail-row">
+            <span>Delivery Fee</span>
+            <strong id="successDelivery">$0.00</strong>
+          </div>
+
+          <hr>
+
+          <div class="detail-row success-total">
+            <strong>Total Amount</strong>
+            <strong id="successTotal">$0.00</strong>
+          </div>
+
+        </div>
+
+        <!-- BUTTONS -->
+        <div class="success-actions">
+
+          <a href="index.html#menu" class="button">
+            Continue Shopping
+          </a>
+
+           <a href="my-orders.html" class="button button-outline">
+    View My Orders
+  </a>
+
+        </div>
+
+        <p class="success-note">
+          This is a frontend demonstration.
+          No real payment or order has been processed.
+        </p>
+
+      </aside>
+
+    </div>
+
+    <!-- NO ORDER FOUND -->
+    <section id="noOrderMessage" class="no-order" hidden>
+
+      <h2>No Order Found</h2>
+
+      <p>
+        We couldn't find any demo order details.
+        Please add products to your cart
+        and place a demo order first.
+      </p>
+
+      <a href="index.html#menu" class="button">
+        Explore Our Menu
+      </a>
+
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+
+    <div class="section-wrap">
+      <p class="copyright">
+        © <span id="year"></span> Anti Bakery.
+        Made with Love ♥
+      </p>
+    </div>
+
+  </footer>
+
+  <!-- JAVASCRIPT -->
+  <script src="order-success.js"></script>
+
+</body>
+</html>

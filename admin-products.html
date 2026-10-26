@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>Manage Products | Anti Bakery</title>
+
+  <link rel="stylesheet"
+        href="admin-products.css">
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="admin-header">
+    <div class="header-inner">
+      <a href="admin.html" class="logo">
+        Anti<span>.</span>
+        <small>ADMIN</small>
+      </a>
+
+      <nav class="admin-nav">
+        <a href="admin.html">Dashboard</a>
+        <a href="admin-products.html"
+           class="active">Products</a>
+        <a href="admin.html#orders">Orders</a>
+        <a href="index.html">View Website</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="admin-container">
+
+    <!-- PAGE HEADING -->
+    <section class="page-heading">
+      <div>
+        <p class="eyebrow">ANTI BAKERY ADMIN</p>
+        <h1>Manage <span>Products</span></h1>
+        <p>
+          Add, edit and manage your bakery collection.
+        </p>
+      </div>
+
+      <button id="addProductBtn"
+              class="primary-btn"
+              type="button">
+        + Add Product
+      </button>
+    </section>
+
+    <!-- STATISTICS -->
+    <section class="stats-grid">
+      <article class="stat-card">
+        <p>Total Products</p>
+        <h2 id="totalProducts">0</h2>
+      </article>
+
+      <article class="stat-card">
+        <p>Available Products</p>
+        <h2 id="availableProducts">0</h2>
+      </article>
+
+      <article class="stat-card">
+        <p>Out of Stock</p>
+        <h2 id="outOfStockProducts">0</h2>
+      </article>
+    </section>
+
+    <!-- PRODUCT LIST -->
+    <section class="products-section">
+      <div class="section-top">
+        <div>
+          <p class="eyebrow">PRODUCT MANAGEMENT</p>
+          <h2>Bakery Collection</h2>
+        </div>
+
+        <div class="filters">
+          <input
+            type="search"
+            id="productSearch"
+            placeholder="Search products..."
+            aria-label="Search products">
+
+          <select id="stockFilter"
+                  aria-label="Filter products">
+            <option value="all">All Products</option>
+            <option value="available">Available</option>
+            <option value="out">Out of Stock</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="productsGrid"
+           class="products-grid"></div>
+
+      <p id="emptyProducts"
+         class="empty-message"
+         hidden>
+        No products found.
+      </p>
+    </section>
+  </main>
+
+  <!-- ADD / EDIT PRODUCT DIALOG -->
+  <dialog id="productDialog"
+          class="product-dialog">
+
+    <form id="productForm">
+      <div class="dialog-heading">
+        <h2 id="dialogTitle">Add Product</h2>
+
+        <button type="button"
+                id="closeProductDialog"
+                class="close-btn"
+                aria-label="Close">
+          ×
+        </button>
+      </div>
+
+      <div class="form-group">
+        <label for="productName">
+          Product Name
+        </label>
+        <input type="text"
+               id="productName"
+               required
+               maxlength="80">
+      </div>
+
+      <div class="form-group">
+        <label for="productPrice">
+          Price ($)
+        </label>
+        <input type="number"
+               id="productPrice"
+               min="0.01"
+               max="99999"
+               step="0.01"
+               required>
+      </div>
+
+      <div class="form-group">
+        <label for="productImage">
+          Product Image URL
+        </label>
+        <input type="url"
+               id="productImage"
+               placeholder="https://example.com/cake.jpg"
+               required>
+      </div>
+
+      <div class="form-group">
+        <label for="productDescription">
+          Description
+        </label>
+        <textarea id="productDescription"
+                  rows="3"
+                  maxlength="300"
+                  placeholder="Describe your product..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="productStock">
+          Stock Status
+        </label>
+        <select id="productStock">
+          <option value="available">Available</option>
+          <option value="out">Out of Stock</option>
+        </select>
+      </div>
+
+      <div class="dialog-actions">
+        <button type="button"
+                id="cancelProductBtn"
+                class="secondary-btn">
+          Cancel
+        </button>
+
+        <button type="submit"
+                class="primary-btn">
+          Save Product
+        </button>
+      </div>
+    </form>
+  </dialog>
+
+  <footer class="footer">
+    © <span id="year"></span> Anti Bakery.
+    Admin Product Management.
+  </footer>
+
+  <script src="admin-products.js"></script>
+</body>
+</html>

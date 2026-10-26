@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Orders | Anti Bakery</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="my-orders.css">
+</head>
+<body>
+
+  <header class="orders-header">
+    <a href="index.html" class="logo">Anti<span>.</span></a>
+    <a href="index.html" class="home-btn">Back to Home</a>
+  </header>
+
+  <main class="orders-container">
+
+    <div class="page-heading">
+      <p class="eyebrow">Your sweet memories</p>
+      <h1>My Orders</h1>
+      <p>View and explore your previous demo orders.</p>
+    </div>
+
+    <section class="stats-grid">
+      <article class="stat-card">
+        <span>Total Orders</span>
+        <strong id="totalOrders">0</strong>
+      </article>
+
+      <article class="stat-card">
+        <span>Total Items</span>
+        <strong id="totalItems">0</strong>
+      </article>
+
+      <article class="stat-card">
+        <span>Total Spent</span>
+        <strong id="totalSpent">$0.00</strong>
+      </article>
+    </section>
+
+    <section class="history-section">
+      <div class="history-heading">
+        <div>
+          <p class="eyebrow">Order history</p>
+          <h2>Recent Orders</h2>
+        </div>
+
+        <label class="sort-label">
+          Sort By
+          <select id="sortOrders">
+            <option value="newest">Newest First</option>
+            <option value="oldest">Oldest First</option>
+            <option value="highest">Highest Amount</option>
+            <option value="lowest">Lowest Amount</option>
+          </select>
+        </label>
+      </div>
+
+      <div id="ordersList" class="orders-list"></div>
+
+      <div id="emptyOrders" class="empty-orders" hidden>
+        <div class="empty-icon">🧁</div>
+        <h3>No Orders Yet!</h3>
+        <p>Your sweet shopping journey starts here.</p>
+        <a href="index.html#menu" class="primary-btn">
+          Explore Our Menu
+        </a>
+      </div>
+    </section>
+
+    <div class="bottom-actions">
+      <a href="index.html#menu" class="primary-btn">
+        Continue Shopping
+      </a>
+    </div>
+
+  </main>
+
+  <dialog id="orderDialog" class="order-dialog">
+    <div class="dialog-heading">
+      <h2>Order Details</h2>
+      <button type="button" id="closeDialog" aria-label="Close order details">×</button>
+    </div>
+    <div id="orderDetails"></div>
+  </dialog>
+
+  <footer>
+    © <span id="year"></span> Anti Bakery. Made with Love ♥
+  </footer>
+
+  <script src="my-orders.js"></script>
+</body>
+</html>
