@@ -1,46 +1,53 @@
 
-/* =========================================
-   ANTI BAKERY - CHECKOUT JAVASCRIPT
-   Complete Updated Version
-   Cart + Checkout + Order History
-========================================= */
+// =========================================
+// ANTI BAKERY - CHECKOUT JAVASCRIPT
+// Updated: Dynamic Products + Order History
+// =========================================
 
 // =========================================
-// STORAGE KEYS
+// 1. STORAGE KEYS
 // =========================================
 
 const CART_KEY = "antiBakeryCartV1";
+const PRODUCTS_KEY = "antiBakeryProductsV1";
 const LAST_ORDER_KEY = "antiBakeryLastOrder";
 const ORDERS_KEY = "antiBakeryOrders";
 
+const DELIVERY_FEE = 0;
+
 // =========================================
-// PRODUCT DETAILS
+// 2. DEFAULT PRODUCTS
 // =========================================
 
-const PRODUCTS = {
-  "Chocolate Cupcake": {
+const DEFAULT_PRODUCTS = [
+  {
+    name: "Chocolate Cupcake",
     price: 2.50,
-    image: "https://images.unsplash.com/photo-1486427944299-d1955d23e34d?auto=format&fit=crop&w=600&q=85"
+    image: "https://images.unsplash.com/photo-1486427944299-d1955d23e34d?auto=format&fit=crop&w=600&q=85",
+    status: "Available"
   },
-
-  "Berry Cheesecake": {
+  {
+    name: "Berry Cheesecake",
     price: 3.75,
-    image: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=600&q=85"
+    image: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=600&q=85",
+    status: "Available"
   },
-
-  "Chocolate Brownie": {
+  {
+    name: "Chocolate Brownie",
     price: 2.99,
-    image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=600&q=85"
+    image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=600&q=85",
+    status: "Available"
   },
-
-  "Classic Doughnut": {
+  {
+    name: "Classic Doughnut",
     price: 1.99,
-    image: "https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=600&q=85"
+    image: "https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=600&q=85",
+    status: "Available"
   }
-};
+];
 
 // =========================================
-// DOM ELEMENTS
+// 3. DOM ELEMENTS
 // =========================================
 
 const checkoutForm =
@@ -61,10 +68,8 @@ const checkoutTotal =
 const placeOrderButton =
   document.getElementById("placeOrderButton");
 
-const DELIVERY_FEE = 0;
-
 // =========================================
-// FORMAT PRICE
+// 4. FORMAT PRICE
 // =========================================
 
 function formatPrice(amount) {
@@ -72,14 +77,14 @@ function formatPrice(amount) {
 }
 
 // =========================================
-// READ LOCAL STORAGE SAFELY
+// 5. READ LOCAL STORAGE SAFELY
 // =========================================
 
 function readStorage(key, fallback) {
   try {
     const storedValue = localStorage.getItem(key);
 
-    if (!storedValue) {
+    if (storedValue === null) {
       return fallback;
     }
 
@@ -97,7 +102,85 @@ function readStorage(key, fallback) {
 }
 
 // =========================================
-// GET SHOPPING CART
+// 6. CHECK PRODUCT AVAILABILITY
+// =========================================
+
+function isProductAvailable(product) {
+  if (
+    product.available === false ||
+    product.inStock === false ||
+    product.stock === 0 ||
+    product.stock === "0"
+  ) {
+    return false;
+  }
+
+  const status = String(
+    product.status ??
+    product.stockStatus ??
+    product.availability ??
+    "Available"
+  ).trim().toLowerCase();
+
+  return ![
+    "out of stock",
+    "out-of-stock",
+    "out",
+    "unavailable",
+    "inactive",
+    "sold out"
+  ].includes(status);
+}
+
+// =========================================
+// 7. LOAD PRODUCTS FROM ADMIN STORAGE
+// =========================================
+
+function getProducts() {
+  const savedProducts = readStorage(
+    PRODUCTS_KEY,
+    null
+  );
+
+  const source = Array.isArray(savedProducts)
+    ? savedProducts
+    : DEFAULT_PRODUCTS;
+
+  return source
+    .filter(product => {
+      if (
+        !product ||
+        typeof product !== "object"
+      ) {
+        return false;
+      }
+
+      const name = String(
+        product.name ?? ""
+      ).trim();
+
+      const price = Number(product.price);
+
+      return (
+        name.length > 0 &&
+        Number.isFinite(price) &&
+        price >= 0
+      );
+    })
+    .map(product => ({
+      name: String(product.name).trim(),
+      price: Number(product.price),
+      image: String(
+        product.image ??
+        product.imageUrl ??
+        DEFAULT_PRODUCTS[0].image
+      ),
+      available: isProductAvailable(product)
+    }));
+}
+
+// =========================================
+// 8. GET SHOPPING CART
 // =========================================
 
 function getCart() {
@@ -106,6 +189,8 @@ function getCart() {
   if (!Array.isArray(savedCart)) {
     return [];
   }
+
+  const products = getProducts();
 
   return savedCart
     .filter(item => {
@@ -118,30 +203,34 @@ function getCart() {
 
       const quantity = Number(item.quantity);
 
+      const product = products.find(
+        product => product.name === item.name
+      );
+
       return (
-        Object.prototype.hasOwnProperty.call(
-          PRODUCTS,
-          item.name
-        ) &&
+        Boolean(product) &&
         Number.isInteger(quantity) &&
         quantity > 0 &&
         quantity <= 99
       );
     })
     .map(item => {
-      const product = PRODUCTS[item.name];
+      const product = products.find(
+        product => product.name === item.name
+      );
 
       return {
-        name: item.name,
+        name: product.name,
         quantity: Number(item.quantity),
         price: product.price,
-        image: product.image
+        image: product.image,
+        available: product.available
       };
     });
 }
 
 // =========================================
-// SHOW EMPTY CART
+// 9. SHOW EMPTY CART
 // =========================================
 
 function showEmptyCart() {
@@ -178,7 +267,7 @@ function showEmptyCart() {
 }
 
 // =========================================
-// DISPLAY CHECKOUT PRODUCTS
+// 10. DISPLAY CHECKOUT PRODUCTS
 // =========================================
 
 function renderCheckout() {
@@ -204,7 +293,12 @@ function renderCheckout() {
     return;
   }
 
-  placeOrderButton.disabled = false;
+  const unavailableItems = cart.filter(
+    item => !item.available
+  );
+
+  placeOrderButton.disabled =
+    unavailableItems.length > 0;
 
   let subtotal = 0;
 
@@ -214,45 +308,50 @@ function renderCheckout() {
 
     subtotal += itemTotal;
 
-    const row =
-      document.createElement("div");
-
+    // PRODUCT ROW
+    const row = document.createElement("div");
     row.className = "checkout-item";
 
     // PRODUCT IMAGE
-    const image =
-      document.createElement("img");
+    const image = document.createElement("img");
 
     image.src = item.image;
     image.alt = item.name;
     image.loading = "lazy";
 
     // PRODUCT DETAILS
-    const details =
-      document.createElement("div");
+    const details = document.createElement("div");
 
     details.className =
       "checkout-item-details";
 
-    const name =
-      document.createElement("h3");
-
+    const name = document.createElement("h3");
     name.textContent = item.name;
 
-    const quantity =
-      document.createElement("p");
+    const quantity = document.createElement("p");
 
     quantity.textContent =
       `${item.quantity} × ${formatPrice(item.price)}`;
 
     details.append(name, quantity);
 
-    // ITEM TOTAL
-    const total =
-      document.createElement("span");
+    // OUT OF STOCK MESSAGE
+    if (!item.available) {
+      const warning = document.createElement("p");
 
-    total.className =
-      "checkout-item-price";
+      warning.textContent =
+        "Out of Stock - Please remove this product from your cart.";
+
+      warning.style.color = "#dc2626";
+      warning.style.fontSize = "13px";
+
+      details.appendChild(warning);
+    }
+
+    // ITEM TOTAL
+    const total = document.createElement("span");
+
+    total.className = "checkout-item-price";
 
     total.textContent =
       formatPrice(itemTotal);
@@ -262,25 +361,42 @@ function renderCheckout() {
     checkoutItems.appendChild(row);
   });
 
+  // SUBTOTAL
   checkoutSubtotal.textContent =
     formatPrice(subtotal);
 
+  // DELIVERY FEE
   checkoutDelivery.textContent =
     formatPrice(DELIVERY_FEE);
 
+  // GRAND TOTAL
   checkoutTotal.textContent =
     formatPrice(subtotal + DELIVERY_FEE);
+
+  // SHOW WARNING IF ANY PRODUCT IS UNAVAILABLE
+  if (unavailableItems.length > 0) {
+    const warning = document.createElement("p");
+
+    warning.textContent =
+      "Some products are unavailable. Please return to your cart and remove them.";
+
+    warning.style.color = "#dc2626";
+    warning.style.marginTop = "15px";
+
+    checkoutItems.appendChild(warning);
+  }
 }
 
 // =========================================
-// SAVE ORDER TO HISTORY
+// 11. SAVE ORDER TO HISTORY
 // =========================================
 
 function saveOrder(demoOrder) {
   try {
-    // GET EXISTING ORDER HISTORY
-    const savedOrders =
-      readStorage(ORDERS_KEY, []);
+    const savedOrders = readStorage(
+      ORDERS_KEY,
+      []
+    );
 
     if (!Array.isArray(savedOrders)) {
       throw new Error(
@@ -288,12 +404,12 @@ function saveOrder(demoOrder) {
       );
     }
 
-    // COPY EXISTING ORDERS
     const updatedOrders = [...savedOrders];
 
-    // GET PREVIOUS LAST ORDER
-    const previousOrder =
-      readStorage(LAST_ORDER_KEY, null);
+    const previousOrder = readStorage(
+      LAST_ORDER_KEY,
+      null
+    );
 
     // RECOVER PREVIOUS LAST ORDER
     if (
@@ -317,7 +433,7 @@ function saveOrder(demoOrder) {
       updatedOrders.push(demoOrder);
     }
 
-    // SAVE COMPLETE HISTORY
+    // SAVE COMPLETE ORDER HISTORY
     localStorage.setItem(
       ORDERS_KEY,
       JSON.stringify(updatedOrders)
@@ -334,11 +450,6 @@ function saveOrder(demoOrder) {
       demoOrder.id
     );
 
-    console.log(
-      "Total saved orders:",
-      updatedOrders.length
-    );
-
     return true;
 
   } catch (error) {
@@ -352,7 +463,7 @@ function saveOrder(demoOrder) {
 }
 
 // =========================================
-// CUSTOMER FORM + PLACE ORDER
+// 12. CUSTOMER FORM + PLACE ORDER
 // =========================================
 
 if (checkoutForm) {
@@ -367,6 +478,20 @@ if (checkoutForm) {
       if (cart.length === 0) {
         alert(
           "Your cart is empty. Add products first."
+        );
+
+        renderCheckout();
+        return;
+      }
+
+      // CHECK PRODUCT AVAILABILITY
+      const unavailableItems = cart.filter(
+        item => !item.available
+      );
+
+      if (unavailableItems.length > 0) {
+        alert(
+          "Some products are out of stock. Please remove them before placing your order."
         );
 
         renderCheckout();
@@ -437,13 +562,18 @@ if (checkoutForm) {
         0
       );
 
-      // CREATE NEW DEMO ORDER
+      // CREATE NEW ORDER
       const demoOrder = {
         id: "ANTI-" + Date.now(),
 
         customer: customer,
 
-        items: cart,
+        items: cart.map(item => ({
+          name: item.name,
+          quantity: item.quantity,
+          price: item.price,
+          image: item.image
+        })),
 
         subtotal: subtotal,
 
@@ -451,7 +581,7 @@ if (checkoutForm) {
 
         total: subtotal + DELIVERY_FEE,
 
-        status: "Demo Only",
+        status: "Pending",
 
         createdAt: new Date().toISOString()
       };
@@ -462,7 +592,7 @@ if (checkoutForm) {
 
       if (!orderSaved) {
         alert(
-          "Could not save your demo order. Please try again."
+          "Could not save your order. Please try again."
         );
         return;
       }
@@ -479,7 +609,7 @@ if (checkoutForm) {
 }
 
 // =========================================
-// FOOTER YEAR
+// 13. FOOTER YEAR
 // =========================================
 
 const yearElement =
@@ -491,7 +621,26 @@ if (yearElement) {
 }
 
 // =========================================
-// INITIALIZE CHECKOUT
+// 14. REFRESH CHECKOUT
+// =========================================
+
+window.addEventListener("pageshow", () => {
+  renderCheckout();
+});
+
+window.addEventListener("storage", event => {
+  if (
+    event.key === CART_KEY ||
+    event.key === PRODUCTS_KEY
+  ) {
+    renderCheckout();
+  }
+});
+
+// =========================================
+// 15. INITIALIZE CHECKOUT
 // =========================================
 
 renderCheckout();
+
+console.log("Anti Bakery checkout initialized.");

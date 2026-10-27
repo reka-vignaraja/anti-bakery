@@ -167,3 +167,697 @@ html {
     width: 100%;
   }
 }
+/* ==========================================
+   CUSTOMER SIDE - PRODUCT SEARCH & FILTER
+========================================== */
+
+.product-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 22px 0 12px;
+}
+
+/* Search Bar */
+
+.product-search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 230px;
+  max-width: 550px;
+  padding: 0 18px;
+  background: #faf8fd;
+  border: 1px solid #e6def0;
+  border-radius: 14px;
+  transition: 0.25s ease;
+}
+
+.product-search:focus-within {
+  border-color: #6745a4;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(103, 69, 164, 0.09);
+}
+
+.search-icon {
+  font-size: 25px;
+  color: #6745a4;
+  line-height: 1;
+}
+
+.product-search input {
+  width: 100%;
+  height: 48px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #27232b;
+  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+}
+
+.product-search input::placeholder {
+  color: #93899f;
+}
+
+/* Category Filter */
+
+.product-filter {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.product-filter label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #5f536d;
+}
+
+.product-filter select {
+  min-width: 165px;
+  height: 48px;
+  padding: 0 35px 0 15px;
+  background: #faf8fd;
+  border: 1px solid #e6def0;
+  border-radius: 14px;
+  color: #6745a4;
+  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+}
+
+.product-filter select:focus {
+  border-color: #6745a4;
+  box-shadow: 0 0 0 4px rgba(103, 69, 164, 0.09);
+}
+
+/* Search Results */
+
+.product-results {
+  min-height: 20px;
+  margin: 0 0 15px;
+  color: #716b77;
+  font-size: 12px;
+}
+
+/* Empty Search Result */
+
+.product-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 45px 20px;
+  background: #faf8fd;
+  border: 1px dashed #d8c9ec;
+  border-radius: 16px;
+  color: #716b77;
+}
+
+.product-empty h3 {
+  margin-bottom: 8px;
+  color: #6745a4;
+  font-size: 18px;
+}
+
+/* Responsive Design */
+
+@media (max-width: 680px) {
+  .product-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .product-search {
+    max-width: 100%;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .product-filter {
+    justify-content: space-between;
+  }
+
+  .product-filter select {
+    flex: 1;
+    max-width: 230px;
+  }
+}
+
+@media (max-width: 390px) {
+  .product-filter {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .product-filter select {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+/* ==========================================
+   ANTI BAKERY - PRODUCT DETAILS POPUP
+========================================== */
+
+.product-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  background: rgba(35, 20, 50, 0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.product-modal-overlay.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.product-modal {
+  position: relative;
+  width: 100%;
+  max-width: 850px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 25px 70px rgba(35, 20, 50, 0.25);
+  transform: translateY(25px) scale(0.97);
+  transition: transform 0.3s ease;
+}
+
+.product-modal-overlay.open .product-modal {
+  transform: translateY(0) scale(1);
+}
+
+/* Close Button */
+
+.product-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 2;
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 50%;
+  background: #f1eafa;
+  color: #6745a4;
+  font-size: 27px;
+  line-height: 1;
+}
+
+.product-modal-close:hover {
+  background: #6745a4;
+  color: #ffffff;
+}
+
+/* Popup Layout */
+
+.product-modal-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  padding: 35px;
+}
+
+/* Product Image */
+
+.product-modal-image {
+  background: #f8f5fc;
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.product-modal-image img {
+  width: 100%;
+  height: 350px;
+  display: block;
+  object-fit: cover;
+}
+
+/* Product Details */
+
+.product-modal-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.product-modal-info h2 {
+  font-family: "Playfair Display", serif;
+  font-size: 32px;
+  font-weight: 600;
+  color: #27232b;
+  line-height: 1.2;
+  margin-bottom: 14px;
+}
+
+.product-modal-price {
+  font-size: 26px;
+  font-weight: 700;
+  color: #6745a4;
+  margin-bottom: 15px;
+}
+
+.product-modal-description {
+  font-size: 14px;
+  line-height: 1.8;
+  color: #716b77;
+  margin-bottom: 18px;
+}
+
+/* Stock Status */
+
+.product-modal-stock {
+  display: inline-block;
+  padding: 7px 14px;
+  border-radius: 20px;
+  background: #e8f7ee;
+  color: #27834b;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.product-modal-stock.out-of-stock {
+  background: #ffe8ed;
+  color: #cf4562;
+}
+
+/* Quantity Selector */
+
+.product-modal-quantity {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.product-modal-quantity > span {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.modal-quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 6px;
+  background: #f7f3fc;
+  border-radius: 30px;
+}
+
+.modal-quantity-controls button {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #6745a4;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.modal-quantity-controls button:hover {
+  background: #6745a4;
+  color: #ffffff;
+}
+
+#modalQuantity {
+  min-width: 20px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* Add to Cart Button */
+
+.product-modal-add {
+  width: 100%;
+  max-width: 270px;
+  padding: 14px 22px;
+  font-size: 14px;
+}
+
+.product-modal-add:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Product Cards Clickable */
+
+.product-card > img,
+.product-info h3 {
+  cursor: pointer;
+}
+
+.product-card > img:hover {
+  opacity: 0.9;
+}
+
+.product-info h3:hover {
+  color: #6745a4;
+}
+
+/* ==========================================
+   MOBILE RESPONSIVE POPUP
+========================================== */
+
+@media (max-width: 680px) {
+
+  .product-modal-overlay {
+    padding: 12px;
+  }
+
+  .product-modal {
+    max-height: 92vh;
+    border-radius: 18px;
+  }
+
+  .product-modal-content {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 20px;
+  }
+
+  .product-modal-image img {
+    height: 230px;
+  }
+
+  .product-modal-info h2 {
+    font-size: 26px;
+  }
+
+  .product-modal-price {
+    font-size: 23px;
+  }
+
+  .product-modal-description {
+    font-size: 13px;
+  }
+
+  .product-modal-close {
+    top: 12px;
+    right: 12px;
+  }
+
+  .product-modal-add {
+    max-width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-modal-overlay,
+  .product-modal {
+    transition: none;
+  }
+}
+/* ==========================================
+   ANTI BAKERY - WISHLIST DESIGN
+========================================== */
+
+/* Navbar Wishlist Icon */
+
+.wishlist-nav-button {
+  position: relative;
+  font-size: 28px;
+  color: #6745a4;
+}
+
+#wishlistCount {
+  position: absolute;
+  top: -5px;
+  right: -9px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 50%;
+  background: #e17b9b;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+}
+
+/* Wishlist Overlay */
+
+.wishlist-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10002;
+  display: flex;
+  justify-content: flex-end;
+  background: rgba(35, 20, 50, 0.55);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.wishlist-overlay.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Wishlist Side Panel */
+
+.wishlist-panel {
+  width: min(440px, 100%);
+  height: 100vh;
+  height: 100dvh;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  box-shadow: -12px 0 35px rgba(35, 20, 50, 0.2);
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+}
+
+.wishlist-overlay.open .wishlist-panel {
+  transform: translateX(0);
+}
+
+/* Wishlist Header */
+
+.wishlist-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px;
+  border-bottom: 1px solid #eee7f4;
+}
+
+.wishlist-header h2 {
+  font-family: "Playfair Display", serif;
+  font-size: 27px;
+  font-weight: 600;
+  color: #27232b;
+}
+
+.wishlist-close {
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 50%;
+  background: #f3edf9;
+  color: #6745a4;
+  font-size: 27px;
+}
+
+.wishlist-close:hover {
+  background: #6745a4;
+  color: white;
+}
+
+/* Wishlist Items */
+
+.wishlist-items {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 24px;
+}
+
+.wishlist-item {
+  display: grid;
+  grid-template-columns: 85px 1fr;
+  gap: 15px;
+  padding: 17px 0;
+  border-bottom: 1px solid #eee7f4;
+}
+
+.wishlist-item img {
+  width: 85px;
+  height: 85px;
+  object-fit: cover;
+  border-radius: 13px;
+  background: #f8f5fc;
+}
+
+.wishlist-item h3 {
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.wishlist-item-price {
+  font-size: 14px;
+  font-weight: 700;
+  color: #6745a4;
+}
+
+.wishlist-item-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 12px;
+}
+
+.wishlist-add-cart,
+.wishlist-remove {
+  padding: 7px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.wishlist-add-cart {
+  border: none;
+  background: #6745a4;
+  color: white;
+}
+
+.wishlist-add-cart:hover {
+  background: #4f3188;
+}
+
+.wishlist-add-cart:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.wishlist-remove {
+  border: 1px solid #eed4df;
+  background: #fff4f7;
+  color: #c64c71;
+}
+
+/* Empty Wishlist */
+
+.wishlist-empty {
+  text-align: center;
+  padding: 65px 15px;
+}
+
+.wishlist-empty > span {
+  display: block;
+  font-size: 65px;
+  color: #b99cdb;
+  margin-bottom: 15px;
+}
+
+.wishlist-empty h3 {
+  font-size: 18px;
+  color: #6745a4;
+  margin-bottom: 8px;
+}
+
+.wishlist-empty p {
+  font-size: 13px;
+  color: #716b77;
+}
+
+/* Footer */
+
+.wishlist-footer {
+  padding: 20px 24px;
+  background: #faf8fd;
+  border-top: 1px solid #eee7f4;
+}
+
+.wishlist-footer .button {
+  width: 100%;
+}
+
+/* Heart Icon on Product Cards */
+
+.product-card {
+  position: relative;
+}
+
+.product-wishlist-button {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  width: 35px;
+  height: 35px;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  color: #6745a4;
+  font-size: 24px;
+  box-shadow: 0 3px 12px rgba(35, 20, 50, 0.12);
+}
+
+.product-wishlist-button:hover {
+  background: #f3eafa;
+}
+
+.product-wishlist-button.active {
+  background: #ffe7ec;
+  color: #e35b82;
+}
+
+/* Mobile Responsive */
+
+@media (max-width: 680px) {
+  .header-actions .wishlist-nav-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px;
+  }
+
+  .wishlist-header {
+    padding: 18px;
+  }
+
+  .wishlist-items {
+    padding: 12px 18px;
+  }
+
+  .wishlist-footer {
+    padding: 18px;
+  }
+
+  .product-wishlist-button {
+    width: 32px;
+    height: 32px;
+    font-size: 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wishlist-overlay,
+  .wishlist-panel {
+    transition: none;
+  }
+}

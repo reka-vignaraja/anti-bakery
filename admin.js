@@ -50,7 +50,6 @@ const closeOrderDetails =
 const PRODUCT_COUNT = 4;
 
 const ORDER_STATUSES = [
-  "Demo Only",
   "Pending",
   "Confirmed",
   "Preparing",

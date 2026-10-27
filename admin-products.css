@@ -439,3 +439,140 @@ button {
     flex-direction: column;
   }
 }
+
+/* =========================================
+   PRODUCT IMAGE UPLOAD FEATURE
+========================================= */
+
+.image-upload-box {
+  border: 2px dashed #d9c5ed;
+  border-radius: 16px;
+  padding: 24px 18px;
+  text-align: center;
+  background: #faf7fd;
+  transition: border-color 0.2s ease,
+              background 0.2s ease;
+}
+
+.image-upload-box:hover {
+  border-color: var(--purple);
+  background: #f6effc;
+}
+
+.image-upload-icon {
+  font-size: 34px;
+  margin-bottom: 10px;
+}
+
+.image-upload-title {
+  margin: 0 0 8px;
+  color: var(--purple-dark);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.image-upload-help {
+  margin: 0 0 18px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.upload-image-btn {
+  display: inline-block;
+  width: auto !important;
+  padding: 12px 22px;
+  border-radius: 11px;
+  background: var(--purple);
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.upload-image-btn:hover {
+  background: var(--purple-dark);
+}
+
+.selected-image-name {
+  margin: 14px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.image-divider {
+  position: relative;
+  margin: 22px 0;
+  text-align: center;
+}
+
+.image-divider::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--border);
+}
+
+.image-divider span {
+  position: relative;
+  padding: 0 12px;
+  background: white;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.image-url-label {
+  margin-bottom: 2px;
+}
+
+.image-help-text {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.image-preview-box {
+  padding: 14px;
+  background: var(--lavender-light);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  margin-top: 12px;
+}
+
+.image-preview-box p {
+  margin: 0 0 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--purple-dark);
+}
+
+.image-preview-box img {
+  display: block;
+  width: 100%;
+  height: 210px;
+  object-fit: cover;
+  border-radius: 10px;
+  background: var(--lavender);
+}
+
+#saveProductBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 650px) {
+  .image-upload-box {
+    padding: 20px 12px;
+  }
+
+  .image-preview-box img {
+    height: 180px;
+  }
+}
+
