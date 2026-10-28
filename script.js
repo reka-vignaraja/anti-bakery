@@ -130,10 +130,25 @@ document.addEventListener("DOMContentLoaded", () => {
     return defaultProducts[0].image;
   }
 
+  function getStockQuantity(product) {
+    const raw = product.stockQuantity;
+    if (raw === undefined || raw === null || raw === "") return null;
+    const n = Number(raw);
+    return Number.isInteger(n) && n >= 0 ? n : null;
+  }
+  function remainingStock(product) {
+    if (!product || !product.available) return 0;
+    return product.stockQuantity === null ? 99 : Math.min(99, product.stockQuantity);
+  }
+  function inCart(name) {
+    return cart.find(item => item.name === name)?.quantity ?? 0;
+  }
+
   function getProductStatus(product) {
     if (
       product.available === false ||
       product.inStock === false ||
+      getStockQuantity(product) === 0 ||
       product.stock === 0 ||
       product.stock === "0"
     ) {
@@ -144,6 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
       product.status ??
       product.stockStatus ??
       product.availability ??
+      (typeof product.stock === "string" ? product.stock : undefined) ??
       "Available"
     ).toLowerCase().trim();
 
@@ -193,6 +209,7 @@ document.addEventListener("DOMContentLoaded", () => {
       price,
       image: safeImageURL(product.image ?? product.imageUrl),
       available: getProductStatus(product),
+      stockQuantity: getStockQuantity(product),
       category: getProductCategory(product),
       description: String(product.description ?? "").trim()
     };
@@ -335,7 +352,9 @@ document.addEventListener("DOMContentLoaded", () => {
               </div>
 
               ${product.available
-                ? ""
+                ? (product.stockQuantity === null
+                    ? ""
+                    : `<p class="stock-message">${product.stockQuantity <= 5 ? "Only " : ""}${product.stockQuantity} in stock</p>`)
                 : '<p class="stock-message">Out of Stock</p>'}
             </div>
           </article>
@@ -420,7 +439,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         combined.set(
           product.name,
-          Math.min(current + quantity, 99)
+          Math.min(current + quantity, remainingStock(product))
         );
       });
 
@@ -560,8 +579,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const currentQuantity = existing?.quantity ?? 0;
 
-    if (currentQuantity + quantity > 99) {
-      showToast("Maximum quantity is 99 per product.");
+    if (currentQuantity + quantity > remainingStock(product)) {
+      showToast("Not enough stock available for this product.");
       return false;
     }
 
@@ -610,8 +629,8 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    if (nextQuantity > 99) {
-      showToast("Maximum quantity reached.");
+    if (nextQuantity > remainingStock(product)) {
+      showToast("Not enough stock available.");
       return;
     }
 
@@ -728,7 +747,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const unavailable = cart.some(item => {
       const product = findProduct(item.name);
 
-      return !product || !product.available;
+      return !product || !product.available || item.quantity > remainingStock(product);
     });
 
     if (unavailable) {
@@ -758,7 +777,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (modalQuantityPlus) {
       modalQuantityPlus.disabled =
-        selectedModalQuantity >= 99;
+        selectedModalQuantity >= remainingStock(selectedModalProduct);
     }
   }
 
@@ -782,7 +801,9 @@ document.addEventListener("DOMContentLoaded", () => {
       "Freshly baked with premium ingredients and lots of love. A delicious treat for every sweet moment.";
 
     modalProductStock.textContent =
-      product.available ? "✓ Available" : "✕ Out of Stock";
+      product.available
+        ? (product.stockQuantity === null ? "✓ Available" : `✓ ${product.stockQuantity} in stock`)
+        : "✕ Out of Stock";
 
     modalProductStock.classList.toggle(
       "out-of-stock",
@@ -837,7 +858,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   modalQuantityPlus?.addEventListener("click", () => {
-    if (selectedModalQuantity < 99) {
+    if (selectedModalQuantity < remainingStock(selectedModalProduct)) {
       selectedModalQuantity++;
       updateModalQuantity();
     }

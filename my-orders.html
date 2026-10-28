@@ -10,21 +10,54 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="my-orders.css">
+  <link rel="stylesheet" href="my-orders.css?v=2">
 </head>
 <body>
 
-  <header class="orders-header">
-    <a href="index.html" class="logo">Anti<span>.</span></a>
-    <a href="index.html" class="home-btn">Back to Home</a>
-  </header>
+  
+<!-- CUSTOMER NAVBAR -->
+<header class="site-header">
 
+  <a class="logo" href="index.html#home"
+     aria-label="Anti Bakery home">
+    Anti<span>.</span>
+  </a>
+
+  <button
+    class="menu-toggle"
+    id="menuToggle"
+    type="button"
+    aria-label="Toggle navigation"
+    aria-expanded="false">
+    ☰
+  </button>
+
+  <nav class="nav-links" id="navLinks">
+    <a href="index.html#home">Home</a>
+    <a href="index.html#menu">Menu</a>
+    <a href="index.html#about">About Us</a>
+    <a href="index.html#story">Our Story</a>
+    <a href="index.html#reviews">Reviews</a>
+    <a href="my-orders.html"
+       class="active"
+       aria-current="page">My Orders</a>
+    <a href="index.html#contact">Contact</a>
+  </nav>
+
+  <div class="header-actions">
+    <a class="button button-small"
+       href="index.html#menu">
+      Order Now
+    </a>
+  </div>
+
+</header>
   <main class="orders-container">
 
     <div class="page-heading">
       <p class="eyebrow">Your sweet memories</p>
       <h1>My Orders</h1>
-      <p>View and explore your previous demo orders.</p>
+      <p>Track your orders and explore your previous purchases.</p>
     </div>
 
     <section class="stats-grid">
@@ -95,5 +128,16 @@
   </footer>
 
   <script src="my-orders.js"></script>
+  
+<script>
+  const menuToggle = document.getElementById("menuToggle");
+  const navLinks = document.getElementById("navLinks");
+
+  menuToggle?.addEventListener("click", () => {
+    const isOpen = navLinks.classList.toggle("open");
+    menuToggle.setAttribute("aria-expanded", String(isOpen));
+  });
+</script>
+
 </body>
 </html>

@@ -1,0 +1,172 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile | Anti Bakery</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="profile.css">
+</head>
+
+<body>
+
+  <header class="profile-header">
+    <a href="index.html" class="logo">Anti<span>.</span></a>
+
+    <nav class="profile-nav">
+      <a href="index.html">Home</a>
+      <a href="index.html#menu">Menu</a>
+      <a href="my-orders.html">My Orders</a>
+      <a href="profile.html" class="active">My Profile</a>
+    </nav>
+
+    <a href="index.html#menu" class="order-btn">Order Now</a>
+  </header>
+
+  <main class="profile-container">
+
+    <div class="page-title">
+      <p class="eyebrow">YOUR SWEET SPACE</p>
+      <h1>My Profile</h1>
+      <p>Manage your personal information and delivery details.</p>
+    </div>
+
+    <div class="profile-layout">
+
+      <aside class="profile-sidebar">
+
+        <div class="avatar" id="profileAvatar">G</div>
+        <h2 id="displayName">Guest Customer</h2>
+        <p id="displayEmail">Demo Profile</p>
+
+        <div class="sidebar-divider"></div>
+
+        <a href="profile.html" class="sidebar-link active">
+          ♙ &nbsp; Personal Information
+        </a>
+
+        <a href="my-orders.html" class="sidebar-link">
+          ♧ &nbsp; My Orders
+        </a>
+
+        <a href="index.html#menu" class="sidebar-link">
+          ♡ &nbsp; Continue Shopping
+        </a>
+
+        <div class="sidebar-divider"></div>
+
+        <a href="login.html" class="sidebar-link">
+          ↗ &nbsp; Go to Login
+        </a>
+
+        <p class="demo-note">
+          Demo profile — not connected to a customer account yet.
+        </p>
+
+      </aside>
+
+      <section class="profile-card">
+
+        <div class="card-heading">
+          <div>
+            <p class="eyebrow">ACCOUNT DETAILS</p>
+            <h2>Personal Information</h2>
+            <p>Keep your contact and delivery information up to date.</p>
+          </div>
+          <span class="profile-badge">Demo</span>
+        </div>
+
+        <form id="profileForm">
+
+          <div class="form-grid">
+
+            <div class="form-group">
+              <label for="fullName">Full Name</label>
+              <input
+                type="text"
+                id="fullName"
+                placeholder="Enter your full name"
+                autocomplete="name"
+                maxlength="80"
+                required
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input
+                type="email"
+                id="email"
+                placeholder="Enter your email"
+                autocomplete="email"
+                required
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input
+                type="tel"
+                id="phone"
+                placeholder="Enter your phone number"
+                autocomplete="tel"
+                maxlength="20"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="city">City</label>
+              <input
+                type="text"
+                id="city"
+                placeholder="Enter your city"
+                autocomplete="address-level2"
+                maxlength="80"
+              >
+            </div>
+
+            <div class="form-group full-width">
+              <label for="address">Delivery Address</label>
+              <textarea
+                id="address"
+                rows="4"
+                placeholder="Enter your delivery address"
+                autocomplete="street-address"
+                maxlength="300"
+              ></textarea>
+            </div>
+
+          </div>
+
+          <p id="profileMessage" class="profile-message" role="status" aria-live="polite"></p>
+
+          <div class="form-actions">
+            <button type="button" id="resetBtn" class="cancel-btn">
+              Reset Changes
+            </button>
+
+            <button type="submit" class="save-btn">
+              Save Changes
+            </button>
+          </div>
+
+        </form>
+
+      </section>
+
+    </div>
+
+  </main>
+
+  <footer>
+    © <span id="year"></span> Anti Bakery. Made with Love ♥
+  </footer>
+
+  <script src="profile.js"></script>
+</body>
+</html>

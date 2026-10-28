@@ -105,10 +105,17 @@ function readStorage(key, fallback) {
 // 6. CHECK PRODUCT AVAILABILITY
 // =========================================
 
+function getStockQuantity(product) {
+  if (product.stockQuantity === null || product.stockQuantity === undefined || product.stockQuantity === "") return null;
+  const n = Number(product.stockQuantity);
+  return Number.isInteger(n) && n >= 0 ? n : null;
+}
+
 function isProductAvailable(product) {
   if (
     product.available === false ||
     product.inStock === false ||
+    getStockQuantity(product) === 0 ||
     product.stock === 0 ||
     product.stock === "0"
   ) {
@@ -119,6 +126,7 @@ function isProductAvailable(product) {
     product.status ??
     product.stockStatus ??
     product.availability ??
+    (typeof product.stock === "string" ? product.stock : undefined) ??
     "Available"
   ).trim().toLowerCase();
 
@@ -175,7 +183,8 @@ function getProducts() {
         product.imageUrl ??
         DEFAULT_PRODUCTS[0].image
       ),
-      available: isProductAvailable(product)
+      available: isProductAvailable(product),
+      stockQuantity: getStockQuantity(product)
     }));
 }
 
@@ -224,7 +233,8 @@ function getCart() {
         quantity: Number(item.quantity),
         price: product.price,
         image: product.image,
-        available: product.available
+        available: product.available && (product.stockQuantity === null || Number(item.quantity) <= product.stockQuantity),
+        stockQuantity: product.stockQuantity
       };
     });
 }
@@ -340,7 +350,7 @@ function renderCheckout() {
       const warning = document.createElement("p");
 
       warning.textContent =
-        "Out of Stock - Please remove this product from your cart.";
+        "Unavailable or insufficient stock - please adjust your cart.";
 
       warning.style.color = "#dc2626";
       warning.style.fontSize = "13px";
@@ -378,7 +388,7 @@ function renderCheckout() {
     const warning = document.createElement("p");
 
     warning.textContent =
-      "Some products are unavailable. Please return to your cart and remove them.";
+      "Some items are unavailable or exceed remaining stock. Please adjust your cart.";
 
     warning.style.color = "#dc2626";
     warning.style.marginTop = "15px";
@@ -586,9 +596,43 @@ if (checkoutForm) {
         createdAt: new Date().toISOString()
       };
 
+      // Re-read current stock immediately before placing the order.
+      const rawProducts = readStorage(PRODUCTS_KEY, null);
+      const stockProducts = Array.isArray(rawProducts) ? rawProducts : null;
+      const updatedProducts = stockProducts ? stockProducts.map(p => ({ ...p })) : null;
+      if (updatedProducts) {
+        let stockError = false;
+        for (const item of cart) {
+          const product = updatedProducts.find(p => p.name === item.name);
+          if (!product || !isProductAvailable(product)) { stockError = true; break; }
+          const count = getStockQuantity(product);
+          if (count !== null) {
+            if (count < item.quantity) { stockError = true; break; }
+            product.stockQuantity = count - item.quantity;
+            if (product.stockQuantity === 0) product.stock = "out";
+          }
+        }
+        if (stockError) {
+          alert("Stock has changed. Please review your cart.");
+          renderCheckout();
+          return;
+        }
+      }
+
+      // Demo-only localStorage update. Backend transactions are required for real shops.
+      try {
+        if (updatedProducts) localStorage.setItem(PRODUCTS_KEY, JSON.stringify(updatedProducts));
+      } catch (error) {
+        alert("Unable to update stock. Order was not placed.");
+        return;
+      }
+
       // SAVE ORDER
-      const orderSaved =
-        saveOrder(demoOrder);
+      const orderSaved = saveOrder(demoOrder);
+      if (!orderSaved && stockProducts) {
+        try { localStorage.setItem(PRODUCTS_KEY, JSON.stringify(stockProducts)); }
+        catch (error) { console.error("Stock rollback failed", error); }
+      }
 
       if (!orderSaved) {
         alert(

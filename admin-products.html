@@ -3,47 +3,111 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
   <title>Manage Products | Anti Bakery</title>
-  <link rel="stylesheet" href="admin-products.css?v=2">
+
+  <!-- GOOGLE FONTS -->
+  <link rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+  <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- ADMIN PRODUCTS CSS -->
+  <link rel="stylesheet"
+        href="admin-products.css?v=3">
 </head>
 
 <body>
 
-  <!-- HEADER -->
+  <!-- =====================================
+       ADMIN HEADER
+  ====================================== -->
+
   <header class="admin-header">
-    <div class="header-inner">
-      <a href="admin.html" class="logo">
-        Anti<span>.</span>
-        <small>ADMIN</small>
+
+    <div class="admin-header-inner">
+
+      <!-- ORIGINAL ADMIN LOGO -->
+      <a href="admin.html" class="admin-logo">
+        Anti<span>Bakery.</span>
       </a>
 
-      <nav class="admin-nav">
-        <a href="admin.html">Dashboard</a>
-        <a href="admin-products.html" class="active">Products</a>
-        <a href="admin.html#orders">Orders</a>
-        <a href="index.html">View Website</a>
+      <!-- ADMIN NAVIGATION -->
+      <nav class="admin-nav"
+           aria-label="Admin navigation">
+
+        <a href="admin.html">
+          Dashboard
+        </a>
+
+        <a href="admin-products.html"
+           class="active"
+           aria-current="page">
+          Products
+        </a>
+
+        <a href="admin.html#recentOrders">
+          Orders
+        </a>
+
+        <a href="index.html">
+          View Website
+        </a>
+
       </nav>
+
     </div>
+
   </header>
+
+  <!-- =====================================
+       MAIN CONTENT
+  ====================================== -->
 
   <main class="admin-container">
 
     <!-- PAGE HEADING -->
     <section class="page-heading">
+
       <div>
-        <p class="eyebrow">ANTI BAKERY ADMIN</p>
-        <h1>Manage <span>Products</span></h1>
-        <p>Add, edit and manage your bakery collection.</p>
+        <p class="eyebrow">
+          ANTI BAKERY ADMIN
+        </p>
+
+        <h1>
+          Manage <span>Products</span>
+        </h1>
+
+        <p>
+          Add, edit and manage your bakery collection.
+        </p>
       </div>
 
-      <button id="addProductBtn" class="primary-btn" type="button">
+      <button
+        id="addProductBtn"
+        class="primary-btn"
+        type="button">
         + Add Product
       </button>
+
     </section>
 
-    <!-- STATISTICS -->
+    <!-- =====================================
+         PRODUCT STATISTICS
+    ====================================== -->
+
     <section class="stats-grid">
+
       <article class="stat-card">
         <p>Total Products</p>
         <h2 id="totalProducts">0</h2>
@@ -58,17 +122,28 @@
         <p>Out of Stock</p>
         <h2 id="outOfStockProducts">0</h2>
       </article>
+
     </section>
 
-    <!-- PRODUCT LIST -->
+    <!-- =====================================
+         PRODUCT MANAGEMENT
+    ====================================== -->
+
     <section class="products-section">
+
       <div class="section-top">
+
         <div>
-          <p class="eyebrow">PRODUCT MANAGEMENT</p>
+          <p class="eyebrow">
+            PRODUCT MANAGEMENT
+          </p>
+
           <h2>Bakery Collection</h2>
         </div>
 
+        <!-- SEARCH AND FILTER -->
         <div class="filters">
+
           <input
             type="search"
             id="productSearch"
@@ -76,50 +151,97 @@
             aria-label="Search products"
           >
 
-          <select id="stockFilter" aria-label="Filter products">
-            <option value="all">All Products</option>
-            <option value="available">Available</option>
-            <option value="out">Out of Stock</option>
+          <select
+            id="stockFilter"
+            aria-label="Filter products">
+
+            <option value="all">
+              All Products
+            </option>
+
+            <option value="available">
+              Available
+            </option>
+
+            <option value="out">
+              Out of Stock
+            </option>
+
           </select>
+
         </div>
+
       </div>
 
-      <div id="productsGrid" class="products-grid"></div>
+      <!-- DYNAMIC PRODUCT CARDS -->
+      <div
+        id="productsGrid"
+        class="products-grid">
+      </div>
 
-      <p id="emptyProducts" class="empty-message" hidden>
+      <!-- EMPTY STATE -->
+      <p
+        id="emptyProducts"
+        class="empty-message"
+        hidden>
         No products found.
       </p>
+
     </section>
+
   </main>
 
-  <!-- ADD / EDIT PRODUCT DIALOG -->
-  <dialog id="productDialog" class="product-dialog">
+  <!-- =====================================
+       ADD / EDIT PRODUCT DIALOG
+  ====================================== -->
+
+  <dialog
+    id="productDialog"
+    class="product-dialog">
 
     <form id="productForm">
 
+      <!-- DIALOG HEADER -->
       <div class="dialog-heading">
-        <h2 id="dialogTitle">Add Product</h2>
+
+        <h2 id="dialogTitle">
+          Add Product
+        </h2>
 
         <button
           type="button"
           id="closeProductDialog"
           class="close-btn"
-          aria-label="Close"
-        >×</button>
+          aria-label="Close">
+          ×
+        </button>
+
       </div>
 
+      <!-- PRODUCT NAME -->
       <div class="form-group">
-        <label for="productName">Product Name</label>
+
+        <label for="productName">
+          Product Name
+        </label>
+
         <input
           type="text"
           id="productName"
           required
           maxlength="80"
+          placeholder="Enter product name"
         >
+
       </div>
 
+      <!-- PRODUCT PRICE -->
       <div class="form-group">
-        <label for="productPrice">Price ($)</label>
+
+        <label for="productPrice">
+          Price ($)
+        </label>
+
         <input
           type="number"
           id="productPrice"
@@ -127,15 +249,26 @@
           max="99999"
           step="0.01"
           required
+          placeholder="Enter product price"
         >
+
       </div>
 
-      <!-- NEW: PRODUCT IMAGE SECTION -->
+      <!-- =====================================
+           PRODUCT IMAGE UPLOAD
+      ====================================== -->
+
       <div class="form-group">
-        <label>Product Image</label>
+
+        <label>
+          Product Image
+        </label>
 
         <div class="image-upload-box">
-          <div class="image-upload-icon">📷</div>
+
+          <div class="image-upload-icon">
+            📷
+          </div>
 
           <p class="image-upload-title">
             Upload your bakery photo
@@ -145,7 +278,9 @@
             JPG, PNG or WebP • Maximum 5 MB
           </p>
 
-          <label for="productImageFile" class="upload-image-btn">
+          <label
+            for="productImageFile"
+            class="upload-image-btn">
             Choose Image
           </label>
 
@@ -156,16 +291,22 @@
             hidden
           >
 
-          <p id="selectedImageName" class="selected-image-name">
+          <p
+            id="selectedImageName"
+            class="selected-image-name">
             No image selected
           </p>
+
         </div>
 
+        <!-- IMAGE URL OPTION -->
         <div class="image-divider">
           <span>OR USE IMAGE URL</span>
         </div>
 
-        <label for="productImage" class="image-url-label">
+        <label
+          for="productImage"
+          class="image-url-label">
           Image URL (Optional)
         </label>
 
@@ -180,61 +321,127 @@
         </p>
 
         <!-- IMAGE PREVIEW -->
-        <div id="imagePreviewBox" class="image-preview-box" hidden>
+        <div
+          id="imagePreviewBox"
+          class="image-preview-box"
+          hidden>
+
           <p>Image Preview</p>
 
           <img
             id="productImagePreview"
             alt="Product image preview"
           >
+
         </div>
+
       </div>
 
+      <!-- PRODUCT DESCRIPTION -->
       <div class="form-group">
-        <label for="productDescription">Description</label>
+
+        <label for="productDescription">
+          Description
+        </label>
+
         <textarea
           id="productDescription"
           rows="3"
           maxlength="300"
           placeholder="Describe your product..."
         ></textarea>
+
       </div>
+
+      <!-- =====================================
+           STOCK STATUS
+      ====================================== -->
 
       <div class="form-group">
-        <label for="productStock">Stock Status</label>
+
+        <label for="productStock">
+          Stock Status
+        </label>
 
         <select id="productStock">
-          <option value="available">Available</option>
-          <option value="out">Out of Stock</option>
+
+          <option value="available">
+            Available
+          </option>
+
+          <option value="out">
+            Out of Stock
+          </option>
+
         </select>
+
       </div>
 
+      <!-- =====================================
+           NEW STOCK QUANTITY
+      ====================================== -->
+
+      <div class="form-group">
+
+        <label for="productStockQuantity">
+          Stock Quantity
+        </label>
+
+        <input
+          type="number"
+          id="productStockQuantity"
+          min="0"
+          step="1"
+          placeholder="Enter available quantity"
+        >
+
+        <small>
+          For existing products, leave blank
+          if quantity has not been recorded yet.
+        </small>
+
+      </div>
+
+      <!-- =====================================
+           FORM ACTIONS
+      ====================================== -->
+
       <div class="dialog-actions">
+
         <button
           type="button"
           id="cancelProductBtn"
-          class="secondary-btn"
-        >
+          class="secondary-btn">
           Cancel
         </button>
 
         <button
           type="submit"
           id="saveProductBtn"
-          class="primary-btn"
-        >
+          class="primary-btn">
           Save Product
         </button>
+
       </div>
 
     </form>
+
   </dialog>
 
+  <!-- =====================================
+       FOOTER
+  ====================================== -->
+
   <footer class="footer">
-    © <span id="year"></span> Anti Bakery.
-    Admin Product Management.
+    © <span id="year"></span>
+    Anti Bakery. Admin Product Management.
   </footer>
 
-  <script src="admin-products.js?v=2"></script>
+  <!-- =====================================
+       JAVASCRIPT
+  ====================================== -->
+
+  <script src="admin-products.js?v=3"></script>
+
 </body>
 </html>

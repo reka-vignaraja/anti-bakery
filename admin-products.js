@@ -111,6 +111,8 @@ const productDescription =
 const productStock =
   document.getElementById("productStock");
 
+const productStockQuantity = document.getElementById("productStockQuantity");
+
 const saveProductBtn =
   document.getElementById("saveProductBtn");
 
@@ -190,6 +192,21 @@ function saveProducts(products) {
    HELPERS
 ========================================= */
 
+function stockCount(product) {
+  if (product.stockQuantity === null || product.stockQuantity === undefined || product.stockQuantity === "") return null;
+  const n = Number(product.stockQuantity);
+  return Number.isInteger(n) && n >= 0 ? n : null;
+}
+function isAvailable(product) {
+  return product.stock !== "out" && stockCount(product) !== 0;
+}
+function stockLabel(product) {
+  const count = stockCount(product);
+  if (!isAvailable(product)) return "Out of Stock";
+  if (count === null) return "Available · quantity not set";
+  return count <= 5 ? `Low Stock · ${count} left` : `${count} in stock`;
+}
+
 function money(value) {
   return "$" + Number(value).toFixed(2);
 }
@@ -213,12 +230,12 @@ function updateStatistics(products) {
 
   availableProducts.textContent =
     products.filter(
-      product => product.stock === "available"
+      product => isAvailable(product)
     ).length;
 
   outOfStockProducts.textContent =
     products.filter(
-      product => product.stock === "out"
+      product => !isAvailable(product)
     ).length;
 }
 
@@ -266,10 +283,8 @@ function createProductCard(product) {
 
   const stock = createElement(
     "span",
-    "stock-badge " + product.stock,
-    product.stock === "available"
-      ? "Available"
-      : "Out of Stock"
+    "stock-badge " + (isAvailable(product) ? "available" : "out"),
+    stockLabel(product)
   );
 
   const actions = createElement(
@@ -336,7 +351,7 @@ function renderProducts() {
 
     const matchesStock =
       selectedStock === "all" ||
-      product.stock === selectedStock;
+      (selectedStock === "available" ? isAvailable(product) : !isAvailable(product));
 
     return matchesSearch && matchesStock;
   });
@@ -555,6 +570,7 @@ function openAddProduct() {
 
   dialogTitle.textContent = "Add Product";
   productStock.value = "available";
+  productStockQuantity.value = "";
 
   productDialog.showModal();
 }
@@ -585,7 +601,8 @@ function openEditProduct(productId) {
   productDescription.value =
     product.description || "";
 
-  productStock.value = product.stock;
+  productStock.value = isAvailable(product) ? "available" : "out";
+  productStockQuantity.value = stockCount(product) ?? "";
 
   currentProductImage = product.image || "";
 
@@ -634,7 +651,17 @@ productForm.addEventListener("submit", event => {
   const description =
     productDescription.value.trim();
 
-  const stock = productStock.value;
+  const quantityRaw = productStockQuantity.value.trim();
+  const stockQuantity = quantityRaw === "" ? null : Number(quantityRaw);
+  if (stockQuantity !== null && (!Number.isInteger(stockQuantity) || stockQuantity < 0)) {
+    alert("Enter a valid stock quantity (0 or more).");
+    return;
+  }
+  if (!editingProductId && stockQuantity === null) {
+    alert("Enter stock quantity for the new product.");
+    return;
+  }
+  const stock = stockQuantity === 0 ? "out" : productStock.value;
 
   if (
     !name ||
@@ -670,7 +697,8 @@ productForm.addEventListener("submit", event => {
             price,
             image,
             description,
-            stock
+            stock,
+            stockQuantity
           }
         : product
     );
@@ -682,7 +710,8 @@ productForm.addEventListener("submit", event => {
       price,
       image,
       description,
-      stock
+      stock,
+      stockQuantity
     });
   }
 
